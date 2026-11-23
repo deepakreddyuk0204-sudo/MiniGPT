@@ -65,6 +65,8 @@ source .venv/bin/activate
 
 A fresh clone recreates the weights through training. The repository tracks small measured reports in `results/`. Downloaded chapters, the local environment and binary checkpoints are Git-ignored. If resuming work in this checkout, use a fresh output name for a new experiment. `fit` protects existing checkpoints.
 
+A clean local clone passed all 27 tests after installing the locked environment and fetching all twelve chapters. The smoke check, fixed-batch test, short train/resume rehearsal, evaluation and generation commands also ran from that clone. On CPU, four uninterrupted updates matched the weights and final losses from two updates followed by two resumed updates.
+
 ## Control an experiment
 
 For a quick rehearsal, use a separate run and deliberately stop after two steps. The second command restores the model, optimizer, original hyperparameters, corpus identity and random-number states, then continues to four total steps.

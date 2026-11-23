@@ -57,3 +57,72 @@ def test_submit_seed_controls_and_refresh_checkpoint(tmp_path, monkeypatch):
     app.run()
     assert not app.exception
     assert any("16 bytes" in caption.value for caption in app.caption)
+
+
+def local_assistant(monkeypatch, stream, *, online=True):
+    from types import SimpleNamespace
+    import minigpt
+
+    class LocalChatError(Exception):
+        pass
+
+    monkeypatch.delenv("MINIGPT_CHECKPOINT", raising=False)
+    backend = SimpleNamespace(ready=lambda: online, stream_reply=stream, LocalChatError=LocalChatError)
+    monkeypatch.setattr(minigpt, "local_chat", backend, raising=False)
+    return backend, AppTest.from_file(APP, default_timeout=20).run()
+
+
+def test_general_chat_offline_shows_local_launcher(monkeypatch):
+    _, app = local_assistant(monkeypatch, None, online=False)
+    assert not app.exception
+    assert app.sidebar.radio[0].value == "General chat"
+    assert "scripts/start_chat.py" in app.code[0].value
+    assert app.chat_input[0].disabled
+
+
+def test_general_chat_streams_plain_text_and_keeps_turns(monkeypatch):
+    calls = []
+    picture = "![external](https://example.invalid/track)"
+    def stream(messages):
+        calls.append(messages)
+        yield "Hello "
+        yield picture
+
+    _, app = local_assistant(monkeypatch, stream)
+    for prompt in ("first turn", "follow up"):
+        app.chat_input[0].set_value(prompt).run()
+        assert not app.exception
+    previous_reply = {"role": "assistant", "content": "Hello " + picture}
+    first = {"role": "user", "content": "first turn"}
+    second = {"role": "user", "content": "follow up"}
+    assert calls == [[first], [first, previous_reply, second]]
+    assert app.session_state["chat_messages"] == [first, previous_reply, second, previous_reply]
+    assert len(app.chat_message) == 4
+    assert app.chat_message[-1].text[0].value == previous_reply["content"]
+    assert not app.chat_message[-1].markdown
+    app.sidebar.button[0].click().run()
+    assert not app.exception
+    assert not app.chat_message
+    assert not app.session_state["chat_messages"]
+
+
+def test_partial_stream_failure_can_be_retried_without_duplicate_history(monkeypatch):
+    calls = []
+    def stream(messages):
+        calls.append(messages)
+        yield "a partial answer"
+        if len(calls) == 1:
+            raise backend.LocalChatError("Connection interrupted")
+        yield " with the ending"
+
+    backend, app = local_assistant(monkeypatch, stream)
+    app.chat_input[0].set_value("Please continue").run()
+    assert not app.exception
+    assert not app.session_state["chat_messages"]
+    assert app.session_state["chat_pending"]["partial"] == "a partial answer"
+    assert app.error
+    next(button for button in app.button if button.label == "Retry reply").click().run()
+    assert not app.exception
+    assert calls[0] == calls[1] == [{"role": "user", "content": "Please continue"}]
+    assert len(app.session_state["chat_messages"]) == 2
+    assert app.chat_message[-1].text[0].value == "a partial answer with the ending"

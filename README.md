@@ -1,5 +1,19 @@
 # MiniGPT
 
+This project has two modes. **General chat** runs Qwen3-8B locally on Apple silicon and remembers recent turns. **MiniGPT playground** runs the small decoder trained in this repository and completes book passages.
+
+## Open local general chat
+
+From the configured checkout, run the launcher and open its local address.
+
+```sh
+.venv/bin/python scripts/start_chat.py
+```
+
+General chat uses the publisher’s quantized instruction weights and the native llama.cpp Metal runtime. It requires a one-time download on a fresh Mac. [Setup, model provenance and local verification](docs/LOCAL_CHAT.md)
+
+## The from-scratch model
+
 A 1,298,880-parameter decoder-only language model you can train, inspect and run on a Mac. It starts with random weights and learns to predict the next UTF-8 byte from ten chapters of Lewis Carroll’s *Alice’s Adventures in Wonderland*. The other two chapters are held out. PyTorch provides tensors, automatic differentiation and AdamW. The repository implements the decoder, attention mask, layer normalization, byte tokenizer, data sampler and generation loop.
 
 The recorded run reached **6.94 test perplexity per byte** in **600 updates** on an M4 Pro. Given the prompt `Alice `, its output began `sould coull thid drepthe on hared`. Use it to study how next-token learning works. Its samples are frequently incoherent. [Model card and results](docs/MODEL_CARD.md) · [Architecture diagram and learning notes](docs/LEARNING.md) · [Data and rights](docs/DATA.md)
@@ -14,7 +28,7 @@ python -m minigpt.generate --prompt "Alice " --tokens 120 --temperature 0.8 --to
 streamlit run app.py --server.address 127.0.0.1 --browser.gatherUsageStats false
 ```
 
-Open the local address Streamlit prints. The chat interface remembers submitted passages for display. Each prompt starts a fresh continuation with the most recent 128 bytes as context. The app runs inference on CPU. Set `MINIGPT_CHECKPOINT` to point it at another local run.
+Open the local address Streamlit prints and select **MiniGPT playground** in the sidebar. The playground remembers submitted passages for display. Each prompt starts a fresh continuation with the most recent 128 bytes as context. The app runs inference on CPU. Set `MINIGPT_CHECKPOINT` to point it at another local run.
 
 ## Reproduce from a fresh checkout
 

@@ -8,3 +8,7 @@ data/
 runs/
 *.pt
 *.pth
+
+# Local chat model and resumable downloads
+models/
+*.gguf

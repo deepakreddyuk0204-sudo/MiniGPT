@@ -1,0 +1,25 @@
+{
+  "device": "mps",
+  "torch_version": "2.15.0",
+  "dtype": "float32",
+  "config": {
+    "vocab_size": 256,
+    "context_length": 128,
+    "n_layer": 4,
+    "n_head": 4,
+    "n_embd": 160,
+    "dropout": 0.0
+  },
+  "parameters": 1298880,
+  "corpus_fingerprint": "3463e6e35af58f0258898c071227b7e74680156b99987b71c66cd3c642cb3620",
+  "seed": 2026,
+  "lr": 0.001,
+  "batch_size": 8,
+  "total_steps": 600,
+  "training_targets_seen": 614400,
+  "requested_total_steps": 600,
+  "session_time_budget_seconds": 600.0,
+  "stop_reason": "step_limit",
+  "session_wall_seconds": 8.5111554999894,
+  "total_training_loop_seconds": 7.433577917021466
+}

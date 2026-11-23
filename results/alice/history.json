@@ -1,0 +1,66 @@
+{
+  "history": [
+    {
+      "step": 0,
+      "validation": {
+        "loss": 5.6657738657043755,
+        "perplexity": 288.8113958932634,
+        "targets": 10350
+      }
+    },
+    {
+      "step": 100,
+      "batch_loss_before_update": 2.4639055728912354,
+      "validation": {
+        "loss": 2.4194779588174127,
+        "perplexity": 11.2399900453194,
+        "targets": 10350
+      }
+    },
+    {
+      "step": 200,
+      "batch_loss_before_update": 2.3497958183288574,
+      "validation": {
+        "loss": 2.33495198705922,
+        "perplexity": 10.328963993527418,
+        "targets": 10350
+      }
+    },
+    {
+      "step": 300,
+      "batch_loss_before_update": 2.2108609676361084,
+      "validation": {
+        "loss": 2.2336878519933583,
+        "perplexity": 9.334225927217378,
+        "targets": 10350
+      }
+    },
+    {
+      "step": 400,
+      "batch_loss_before_update": 2.1339035034179688,
+      "validation": {
+        "loss": 2.118573169662181,
+        "perplexity": 8.319258844391285,
+        "targets": 10350
+      }
+    },
+    {
+      "step": 500,
+      "batch_loss_before_update": 2.0468926429748535,
+      "validation": {
+        "loss": 1.9952450229810632,
+        "perplexity": 7.354004707311489,
+        "targets": 10350
+      }
+    },
+    {
+      "step": 600,
+      "batch_loss_before_update": 1.8327531814575195,
+      "validation": {
+        "loss": 1.8923290912195105,
+        "perplexity": 6.63480376239551,
+        "targets": 10350
+      }
+    }
+  ]
+}

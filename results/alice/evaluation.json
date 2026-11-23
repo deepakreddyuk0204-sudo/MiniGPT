@@ -1,0 +1,58 @@
+{
+  "checkpoint_sha256": "5056293ccea67615e0409124527c1bc4ff5ca38a5bf1e869bdb113d155eb4338",
+  "corpus_fingerprint": "3463e6e35af58f0258898c071227b7e74680156b99987b71c66cd3c642cb3620",
+  "step": 600,
+  "evaluation_device": "mps",
+  "scores": {
+    "train": {
+      "loss": 1.8868073328841493,
+      "perplexity": 6.598268940474037,
+      "targets": 120920
+    },
+    "val": {
+      "loss": 1.8923290912195105,
+      "perplexity": 6.63480376239551,
+      "targets": 10350
+    },
+    "test": {
+      "loss": 1.937581970155765,
+      "perplexity": 6.941944830174881,
+      "targets": 11558
+    }
+  },
+  "train_unigram_baseline": {
+    "train": {
+      "loss": 3.108170186231405,
+      "perplexity": 22.38005557738887,
+      "targets": 120920
+    },
+    "val": {
+      "loss": 3.1286242500228196,
+      "perplexity": 22.842532302337187,
+      "targets": 10350
+    },
+    "test": {
+      "loss": 3.118258803024612,
+      "perplexity": 22.606982144793392,
+      "targets": 11558
+    }
+  },
+  "sampling_device": "cpu",
+  "sampling": {
+    "max_new_tokens": 120,
+    "temperature": 0.8,
+    "top_k": 20,
+    "seed": 42
+  },
+  "samples": [
+    {
+      "prompt": "Alice ",
+      "continuation": "sould coull thid drepthe on hared at whise feloud the hise whes all curunes it, the at canoke of sing the make shis, and"
+    },
+    {
+      "prompt": "The Rabbit ",
+      "continuation": "as the was: and scome many, \"I'lll deed gean min the cange on onse what thing yo wore do in the the he Dissss oung, not "
+    }
+  ],
+  "runtime_seconds": 1.4756656250101514
+}

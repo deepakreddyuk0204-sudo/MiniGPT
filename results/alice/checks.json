@@ -1,0 +1,47 @@
+{
+  "device": "mps",
+  "seed": 17,
+  "config": {
+    "vocab_size": 256,
+    "context_length": 32,
+    "n_layer": 1,
+    "n_head": 2,
+    "n_embd": 48,
+    "dropout": 0.0
+  },
+  "smoke": {
+    "weight_changed": true,
+    "reload_logits_match": true,
+    "generated_bytes": 4
+  },
+  "overfit": {
+    "targets": 64,
+    "lr": 0.005,
+    "loss_threshold": 0.1,
+    "max_steps": 120,
+    "history": [
+      {
+        "step": 0,
+        "loss": 5.554657459259033
+      },
+      {
+        "step": 10,
+        "loss": 2.5506532192230225
+      },
+      {
+        "step": 20,
+        "loss": 0.9984387159347534
+      },
+      {
+        "step": 30,
+        "loss": 0.19206947088241577
+      },
+      {
+        "step": 40,
+        "loss": 0.036639340221881866
+      }
+    ],
+    "passed": true
+  },
+  "runtime_seconds": 0.9497553330147639
+}

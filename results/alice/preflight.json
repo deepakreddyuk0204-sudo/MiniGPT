@@ -1,0 +1,68 @@
+{
+  "device": "mps",
+  "config": {
+    "vocab_size": 256,
+    "context_length": 128,
+    "n_layer": 4,
+    "n_head": 4,
+    "n_embd": 160,
+    "dropout": 0.0
+  },
+  "batch_size": 8,
+  "passed": true,
+  "step_seconds": [
+    0.5677052920218557,
+    0.01404591600294225,
+    0.012692707998212427,
+    0.01205983298132196
+  ],
+  "warm_median_seconds": 0.012692707998212427,
+  "losses": [
+    5.674842834472656,
+    5.099229335784912,
+    4.7300190925598145,
+    4.504096031188965
+  ],
+  "samples": [
+    {
+      "system_available_bytes": 7216365568,
+      "process_rss_bytes": 299188224,
+      "process_peak_rss_bytes": 299188224,
+      "mps_tensor_bytes": 5264896,
+      "mps_driver_bytes": 8880128,
+      "mps_recommended_bytes": 19069665280
+    },
+    {
+      "system_available_bytes": 7132708864,
+      "process_rss_bytes": 464142336,
+      "process_peak_rss_bytes": 464142336,
+      "mps_tensor_bytes": 20862976,
+      "mps_driver_bytes": 84672512,
+      "mps_recommended_bytes": 19069665280
+    },
+    {
+      "system_available_bytes": 7082311680,
+      "process_rss_bytes": 464273408,
+      "process_peak_rss_bytes": 464273408,
+      "mps_tensor_bytes": 20862976,
+      "mps_driver_bytes": 135004160,
+      "mps_recommended_bytes": 19069665280
+    },
+    {
+      "system_available_bytes": 7082344448,
+      "process_rss_bytes": 464273408,
+      "process_peak_rss_bytes": 464273408,
+      "mps_tensor_bytes": 20862976,
+      "mps_driver_bytes": 135004160,
+      "mps_recommended_bytes": 19069665280
+    },
+    {
+      "system_available_bytes": 7082344448,
+      "process_rss_bytes": 464273408,
+      "process_peak_rss_bytes": 464273408,
+      "mps_tensor_bytes": 20862976,
+      "mps_driver_bytes": 135004160,
+      "mps_recommended_bytes": 19069665280
+    }
+  ]
+}

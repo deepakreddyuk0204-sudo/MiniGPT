@@ -1,0 +1,14 @@
+.venv/
+.tools/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+.DS_Store
+data/
+runs/
+*.pt
+*.pth
+
+# Local chat model and resumable downloads
+models/
+*.gguf

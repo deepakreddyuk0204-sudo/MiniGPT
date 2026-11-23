@@ -1,3 +1,112 @@
 # MiniGPT
 
-A local, byte-level language model trained from random initialization on Apple silicon.
+A 1,298,880-parameter decoder-only language model you can train, inspect and run on a Mac. It starts with random weights and learns to predict the next UTF-8 byte from ten chapters of Lewis Carroll’s *Alice’s Adventures in Wonderland*. The other two chapters are held out. PyTorch provides tensors, automatic differentiation and AdamW. The repository implements the decoder, attention mask, layer normalization, byte tokenizer, data sampler and generation loop.
+
+The recorded run reached **6.94 test perplexity per byte** in **600 updates** on an M4 Pro. Given the prompt `Alice `, its output began `sould coull thid drepthe on hared`. Use it to study how next-token learning works. Its samples are frequently incoherent. [Model card and results](docs/MODEL_CARD.md) · [Architecture diagram and learning notes](docs/LEARNING.md) · [Data and rights](docs/DATA.md)
+
+## Use the trained model on this Mac
+
+The local checkout includes a trained checkpoint in `runs/alice/last.pt`. From this directory:
+
+```sh
+source .venv/bin/activate
+python -m minigpt.generate --prompt "Alice " --tokens 120 --temperature 0.8 --top-k 20 --seed 42
+streamlit run app.py --server.address 127.0.0.1 --browser.gatherUsageStats false
+```
+
+Open the local address Streamlit prints. The chat interface remembers submitted passages for display. Each prompt starts a fresh continuation with the most recent 128 bytes as context. The app runs inference on CPU. Set `MINIGPT_CHECKPOINT` to point it at another local run.
+
+## Reproduce from a fresh checkout
+
+Run the following commands inside the repository. The tested environment uses native arm64 Python 3.12.14 on macOS. The exact Python version is in `.python-version`. The committed `uv.lock` records package versions and distribution hashes. The initial setup downloads the interpreter if needed and installs dependencies into `.venv`. Corpus preparation needs network access once. All subsequent training and generation are local.
+
+With an existing `uv` installation, start at `uv sync --frozen`. Alternatively, use an existing Python 3 with venv support to install the tested uv version in this checkout:
+
+```sh
+python3 -m venv .tools
+.tools/bin/python -m pip install uv==0.13.9
+export PATH="$PWD/.tools/bin:$PATH"
+uv sync --frozen
+source .venv/bin/activate
+```
+
+1. Check the environment. The audit prints RAM, available storage, Python, PyTorch and the actual gradients from a CPU probe and an MPS probe when available.
+
+   ```sh
+   python scripts/audit.py
+   ```
+
+2. Verify and prepare the book. Run the offline unit and interface tests.
+
+   ```sh
+   python -m minigpt.data
+   python -m pytest -q
+   ```
+
+3. Run the tiny checkpoint smoke test and single-batch memorization test. Both use verified training text.
+
+   ```sh
+   python -m minigpt.diagnostics
+   ```
+
+4. Train the default experiment. The command first measures four disposable optimizer steps with the same model and batch shape. After a passing probe it reseeds, constructs fresh weights and starts the bounded run.
+
+   ```sh
+   python -m minigpt.train fit --out runs/alice --steps 600 --seconds 600
+   ```
+
+5. Evaluate the frozen checkpoint and sample a continuation. Evaluation writes all split scores, a training-derived frequency baseline, checkpoint SHA-256 and two unedited seeded samples to `runs/evaluation.json`.
+
+   ```sh
+   python -m minigpt.evaluate --checkpoint runs/alice/last.pt
+   python -m minigpt.generate --prompt "The Rabbit " --tokens 120 --seed 42
+   streamlit run app.py --server.address 127.0.0.1 --browser.gatherUsageStats false
+   ```
+
+A fresh clone recreates the weights through training. The repository tracks small measured reports in `results/`. Downloaded chapters, the local environment and binary checkpoints are Git-ignored. If resuming work in this checkout, use a fresh output name for a new experiment. `fit` protects existing checkpoints.
+
+## Control an experiment
+
+For a quick rehearsal, use a separate run and deliberately stop after two steps. The second command restores the model, optimizer, original hyperparameters, corpus identity and random-number states, then continues to four total steps.
+
+```sh
+python -m minigpt.train fit --out runs/rehearsal --device cpu --width 32 --layers 1 --heads 2 --context 32 --batch-size 2 --steps 2 --seconds 60
+python -m minigpt.train resume --out runs/rehearsal --device cpu --steps 4 --seconds 60
+```
+
+Use `python -m minigpt.train fit --help` for width, depth, heads, context, dropout, batch size, seed and learning rate. Width must divide evenly across heads. Training selects MPS on supported Macs and otherwise selects CPU. Resume on the original device. Generation supports a temperature of zero for greedy decoding, top-k from 1 to 256, and deterministic draws with a given seed on the same stack. A longer prompt is accepted and the context window advances after every generated byte.
+
+Each run directory contains:
+
+| File | How to use it |
+| --- | --- |
+| `preflight.json` | Inspect timed full-size steps, process RSS and Metal allocations before training. |
+| `last.pt` | Resume or generate from this atomic checkpoint. The trainer saves every 100 steps and at a normal stopping boundary. |
+| `history.json` | See pre-training validation and subsequent validation scores. Each logged training loss belongs to the last batch before its update. |
+| `run.json` | Read the seed, model dimensions, completed updates, targets seen, actual times and stopping reason. |
+
+The wall budget is checked between updates. Setup, preflight and finishing an in-flight update or checkpoint add elapsed time. Force-quitting can discard updates since the latest checkpoint. Replaying on a different PyTorch version or processor can change numerical results. [Reproducibility details](https://docs.pytorch.org/docs/stable/notes/randomness.html)
+
+## Size, runtime and cost
+
+The audited host has 24 GiB of unified memory, a 14-core CPU and a 20-core M4 Pro GPU. The active system Python was 3.15.2. This project uses an isolated 3.12.14 environment with PyTorch 2.15.0. The original storage audit showed 768 GiB available. The local environment used about 1 GiB and the training checkpoint about 15 MiB. Allow extra disk space for installation caches. [Environment audit](results/environment.json)
+
+With batch size 8 and context 128, four preflight updates reached a maximum **sampled Metal driver allocation of 128.75 MiB** and a **process peak RSS of 442.77 MiB**. Those counters can overlap on Apple silicon. Warm median time was about 12.7 ms per update. The recorded training session took 8.51 seconds including preflight, and final evaluation plus sample generation took another 1.48 seconds. These measurements apply to this machine and configuration. [Memory samples](results/alice/preflight.json) · [Run record](results/alice/run.json)
+
+The probe requires more than 512 MiB system memory available and a sampled Metal driver allocation below 75% of the recommended GPU working set. A sample between updates can miss transient GPU peaks. Increasing context increases attention matrix size quadratically. Start with a smaller batch or context if a probe fails. Other apps share the same memory, and longer runs consume local power and can heat the laptop. This workflow uses no paid API or cloud compute.
+
+## Read the code
+
+| Module | Start here to understand |
+| --- | --- |
+| [tokenizer.py](minigpt/tokenizer.py), [data.py](minigpt/data.py) | UTF-8 IDs, source verification, chapter splits, shifted targets and mini-batches |
+| [model.py](minigpt/model.py) | Shapes, embeddings, causal heads, residual streams, MLP, normalization and loss |
+| [engine.py](minigpt/engine.py) | Gradient updates, clipping, token-weighted evaluation, checkpoint state and resumption |
+| [train.py](minigpt/train.py), [diagnostics.py](minigpt/diagnostics.py) | Budgets, logs, memory checks and the fixed-batch experiment |
+| [evaluate.py](minigpt/evaluate.py) | Full-split scores, frequency baseline and recorded sample settings |
+| [generation.py](minigpt/generation.py), [generate.py](minigpt/generate.py) | Temperature, top-k, context cropping and the text CLI |
+| [app.py](app.py), [tests/](tests/) | Streamlit interaction and executable checks of each component |
+
+## Project provenance
+
+Codex generated the initial implementation, tests and documentation for this independent learning project. The measured results come from executing that code on the local Mac. The public text provenance and rights are documented separately. The architectural ideas come from published Transformer research. All learned parameters in the recorded run started from random initialization.

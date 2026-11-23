@@ -1,0 +1,102 @@
+{
+  "title": "Alice’s Adventures in Wonderland",
+  "raw_base": "https://raw.githubusercontent.com/standardebooks/lewis-carroll_alices-adventures-in-wonderland_john-tenniel/8da5cac1a4ec2c811322eff79daa5e11e851a813/src/epub/text",
+  "chapters": [
+    {
+      "number": 1,
+      "split": "train",
+      "raw_bytes": 13347,
+      "raw_sha256": "a006f6595337f1a3b35e46676352200514f1a50511125edda6bf898f83027486",
+      "prepared_bytes": 11237,
+      "prepared_sha256": "eec2e1822371c52c783ac0d38ea55f593f688618de390883b9acdc22def6bd96"
+    },
+    {
+      "number": 2,
+      "split": "train",
+      "raw_bytes": 14029,
+      "raw_sha256": "8da2811b383d846ef601d2a8a1b48d151f88dbb707dcbc18991ce5af7222f4ac",
+      "prepared_bytes": 10898,
+      "prepared_sha256": "9568d742f30ed428c24f35f1e848900987947efe97a97b4ea867cc9ba9c187f1"
+    },
+    {
+      "number": 3,
+      "split": "train",
+      "raw_bytes": 13470,
+      "raw_sha256": "2cc3e7f446b97a674961319697552d7ada2d48f23865c516c3e8038fb91ab42b",
+      "prepared_bytes": 9170,
+      "prepared_sha256": "b8669010f8299c4a8f7a2ff3e253c9616319426180794ac4b57589c2d746fd1b"
+    },
+    {
+      "number": 4,
+      "split": "train",
+      "raw_bytes": 16813,
+      "raw_sha256": "87174c0007490c8bde0991e97d77fb3334b8cfcb7b93a7b5912ad8e6d000a301",
+      "prepared_bytes": 13867,
+      "prepared_sha256": "6c3a10978de4a67323d932008ea6fbcc5ca28f3f1cb83753e73ceaa86e6296e0"
+    },
+    {
+      "number": 5,
+      "split": "train",
+      "raw_bytes": 16740,
+      "raw_sha256": "d2a6c805bf8cad6f5631f552b7390f4cd3ab5ef6a93551c49b04753231099471",
+      "prepared_bytes": 11763,
+      "prepared_sha256": "6b39a2a4182967e4091cb248fa2c2764794b404318b9c191200b41a8afaefbce"
+    },
+    {
+      "number": 6,
+      "split": "train",
+      "raw_bytes": 17975,
+      "raw_sha256": "e8d9376e33e57085b90a830f7aecacc6fae8eb1a439186d8c6cb9a1033c59934",
+      "prepared_bytes": 13789,
+      "prepared_sha256": "08a680557401216546f2a74bfbfcb2c762231dfe979dd24807ab96579b106fc7"
+    },
+    {
+      "number": 7,
+      "split": "train",
+      "raw_bytes": 16431,
+      "raw_sha256": "0c88a01606bb2fa8447e7f01c3f311aea91853339ae14b9c5aa2b8c2b50ce1a7",
+      "prepared_bytes": 12647,
+      "prepared_sha256": "a44aec51b417090afb8475388cbb7ea93fee766947c7ab176b56c9ebd7ef3383"
+    },
+    {
+      "number": 8,
+      "split": "train",
+      "raw_bytes": 16869,
+      "raw_sha256": "6bd55fbfb1c392427d63693a0b2f9121a8edccd1cc1dbecc61843182e2919379",
+      "prepared_bytes": 13645,
+      "prepared_sha256": "c81ac12657e24308393e5240b69a46738d026978c7df699d72241dadb99f8ac2"
+    },
+    {
+      "number": 9,
+      "split": "train",
+      "raw_bytes": 16055,
+      "raw_sha256": "00ec54aa8e0a3ef1db3c84d05bf95b8d5030924552f78cbce65956ad89b021be",
+      "prepared_bytes": 12617,
+      "prepared_sha256": "96e1a8cb91e39c0cedc8b8c2a935f1cbe89866afeb4cf2b1e1f288b6d7cc9159"
+    },
+    {
+      "number": 10,
+      "split": "train",
+      "raw_bytes": 16042,
+      "raw_sha256": "b7e15f3a02c8e99a911027a21e4f2501f62787d22194a09f52819315ee3c59ce",
+      "prepared_bytes": 11297,
+      "prepared_sha256": "340462b02ac2643d1769a04f17f87cf77337c1e2b4b6de7337ea9008b479c33f"
+    },
+    {
+      "number": 11,
+      "split": "val",
+      "raw_bytes": 13565,
+      "raw_sha256": "15c5479366bfe103062ea382a50237d7933b9762d6327c59c4f4a6da3201d9b3",
+      "prepared_bytes": 10351,
+      "prepared_sha256": "e36b94d15c8aa2a3be654b68f6171b61a44a96cd7b9f6a660e7a4f8c9a696f1c"
+    },
+    {
+      "number": 12,
+      "split": "test",
+      "raw_bytes": 15467,
+      "raw_sha256": "d977322adcaf0e0cc2bfbe6dd1335df6699656fb456a4307c3fe48e37f9d0dbe",
+      "prepared_bytes": 11559,
+      "prepared_sha256": "6d689db439be39579482d9fc82e381c9b39a4f93321a7ca1efaf9b8e708439f6"
+    }
+  ]
+}

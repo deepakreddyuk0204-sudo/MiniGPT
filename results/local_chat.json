@@ -1,0 +1,62 @@
+{
+  "utc": "2026-11-18T21:12:08.499762+00:00",
+  "platform": "macOS-27.2.1-arm64-arm-64bit",
+  "model": "qwen3-8b-local",
+  "file": "Qwen3-8B-Q4_K_M.gguf",
+  "context_tokens": 8192,
+  "build": "b12503",
+  "checks": [
+    {
+      "prompt": "My fictional workshop is called Copper Finch. Reply with just OK.",
+      "answer": "OK.",
+      "first_visible_seconds": 0.2917044999776408,
+      "total_seconds": 0.33910066599491984,
+      "max_sampled_server_rss_bytes": 6001197056,
+      "expected": "ok",
+      "passed": true
+    },
+    {
+      "prompt": "What is my workshop called? Reply with just its name.",
+      "answer": "Copper Finch",
+      "first_visible_seconds": 0.09817691700300202,
+      "total_seconds": 0.16579970897873864,
+      "max_sampled_server_rss_bytes": 5999378432,
+      "expected": "copper finch",
+      "passed": true
+    },
+    {
+      "prompt": "What is 17 + 25? Reply with the integer only.",
+      "answer": "42",
+      "first_visible_seconds": 0.0978070410201326,
+      "total_seconds": 0.14329741601250134,
+      "max_sampled_server_rss_bytes": 5999640576,
+      "expected": "42",
+      "passed": true
+    }
+  ],
+  "generation_probe": {
+    "prompt": "In one short paragraph, explain why glass can make a rainbow when sunlight passes through it.",
+    "answer": "Glass can create a rainbow when sunlight passes through it because of a phenomenon called dispersion. When sunlight enters the glass, it slows down and bends, or refracts, at different angles depending on the wavelength of the light. Since different colors of light have different wavelengths, they bend by different amounts, causing the white sunlight to spread out into a spectrum of colors—red, orange, yellow, green, blue, indigo, and violet—similar to a rainbow. This separation of light into its component colors is what creates the rainbow effect.",
+    "finish_reason": "stop",
+    "usage": {
+      "completion_tokens": 109,
+      "prompt_tokens": 63,
+      "total_tokens": 172,
+      "prompt_tokens_details": {
+        "cached_tokens": 36
+      }
+    },
+    "timings": {
+      "cache_n": 36,
+      "prompt_n": 27,
+      "prompt_ms": 96.227,
+      "prompt_per_token_ms": 3.563962962962963,
+      "prompt_per_second": 280.5865297681524,
+      "predicted_n": 109,
+      "predicted_ms": 2430.921,
+      "predicted_per_token_ms": 22.508527777777775,
+      "predicted_per_second": 44.42760583334465
+    },
+    "wall_seconds": 2.528353542002151
+  }
+}

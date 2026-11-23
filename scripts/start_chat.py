@@ -115,8 +115,7 @@ def run():
         str(binary), "-m", str(model), "--host", HOST, "--port", str(backend_port),
         "--alias", local_chat.MODEL_ID, "--ctx-size", str(local_chat.CONTEXT_TOKENS),
         "--parallel", "1", "--gpu-layers", "all", "--jinja", "--reasoning", "off",
-        "--chat-template-kwargs", '{"enable_thinking":false}', "--offline", "--no-webui",
-        "--verbosity", "2",
+        "--offline", "--no-webui", "--cors-origins", "localhost", "--no-slots", "--verbosity", "2",
     ]
     ui = [
         sys.executable, "-m", "streamlit", "run", str(ROOT / "app.py"),

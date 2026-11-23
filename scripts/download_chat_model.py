@@ -16,7 +16,7 @@ import time
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "minigpt/qwen_manifest.json"
-BLOCK_SIZE = 32 * 1024**2
+BLOCK_SIZE = 8 * 1024**2
 CURL = ["curl", "--fail", "--silent", "--show-error", "--location", "--proto", "=https",
         "--proto-redir", "=https", "--connect-timeout", "20", "--speed-limit", "4096",
         "--speed-time", "45"]

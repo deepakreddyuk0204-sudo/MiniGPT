@@ -47,3 +47,19 @@ The browser sends each message to Streamlit on this Mac. The app retains complet
 The runtime is configured for 8,192 tokens, including the formatted conversation and the answer. The client reserves up to 1,024 tokens for the reply and eight tokens of margin. It counts the formatted conversation with the model’s tokenizer. When space runs short it drops the oldest complete exchanges from the model input. They remain visible in the interface. A single oversized message prompts you to shorten it.
 
 The app uses Qwen’s direct-answer mode, temperature 0.7, top-p 0.8 and top-k 20. Repeated prompts can produce different answers. The local verification below tests specific tasks and reports measurements on one machine. It establishes no benchmark comparison with Claude Haiku. [Conversation client](../minigpt/local_chat.py) · [Streamlit app](../app.py)
+
+## Verified on the M4 Pro
+
+On the 24 GiB Mac, the complete 5.03 GB file matched the publisher’s SHA-256 and the Metal runtime loaded it. In the browser, the assistant explained UTF-8 byte tokenization in one sentence. When asked a follow-up about the word `cat`, it correctly returned the byte IDs 99, 97 and 116.
+
+In a separate live check, it recalled the fictional workshop name “Copper Finch” and answered `17 + 25` with `42`. First visible text arrived in 0.10–0.29 seconds across three short prompts with the server already running. The largest server RSS sample during those prompts was 5.59 GiB. RSS measures resident process memory and can differ from total unified memory in use.
+
+A separate 109-token explanation took 2.53 seconds end to end. The server reported 44.4 generated tokens/second. It reused 36 cached prompt tokens. These are individual local timings that vary with the prompt, caching, other apps and sampling. [Exact prompts, outputs and timings](../results/local_chat.json)
+
+To repeat the live check while the launcher is running:
+
+```sh
+.venv/bin/python scripts/check_chat.py --output runs/local-chat/check.json
+```
+
+The offline suite also exercises the chat UI with a simulated backend, complete-turn trimming, interrupted streams, retry behavior, download recovery and launcher ownership. Run it with `.venv/bin/python -m pytest -q`.
